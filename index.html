@@ -57,21 +57,25 @@
                         </select>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary mt-4 float-right" onclick="drawPlot()">Find My Setting</button>
+                <div class="form-group row mb-4">
+                    <div class="col-md-12">
+                        <button type="submit" class="btn btn-primary mt-4 float-right" onclick="drawPlot()">Find My Setting</button>
+                    </div>
+                </div>
+                <hr class="style2 mt-4">
+                <div class="form-group row mb-4">
+                    <div class="col-md-12">
+                        <h3 class="form-group">Facts and Assumptions</h3>
+                        <ol type="1">
+                            <li>Data Source: <a href="https://www7.ncdc.noaa.gov/CDO/cdopoemain.cmd?datasetabbv=DS3505&countryabbv=&georegionabbv=&resolution=40" target="_blank">NNDC Climate Data Online (2005-2019)</a></li>
+                            <li>NYU Central Park Station ID: 72505394728</li>
+                            <li>In this plot, we show hourly median values based on data from 2005 untill 2019.</li>
+                        </ol>  
+                    </div>
+                </div>
             </div>
-            <div class="col-md-8">
-                <div class="col-md-12" id="recommendations"></div>
-                <div class="col-md-12" id="legends"></div>
+            <div class="col-md-8 mb-4">
                 <div class="col-md-12" id="dataviz"></div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-                <h3>Facts and Assumptions</h3>
-                <ol type="1">
-                    <li>Data Source: <a href="https://www7.ncdc.noaa.gov/CDO/cdopoemain.cmd?datasetabbv=DS3505&countryabbv=&georegionabbv=&resolution=40">NNDC Climate Data Online (2005-2019)</a></li>
-                    <li>NYU Central Park Station ID: 72505394728</li>
-                </ol>  
             </div>
         </div>
     </div>
@@ -101,10 +105,11 @@
 
         d3.csv("static/data/nycMonthlyHoD.csv", function(d) {
                 return {
-                    Month: d.Month,
-                    Hour: d.Hour,
-                    Dry_Bulb_Temperature: d.TempVals_median,
-                    Wet_Bulb_Temperature: d.DewVals_median
+                    Month: +d.Month,
+                    Hour: +d.Hour,
+                    Dry_Bulb_Temperature: (((+d.TempVals_median) * 9) / 5) + 32,
+                    Wet_Bulb_Temperature: (((+d.DewVals_median) * 9) / 5) + 32,
+                    Set_Point_Temperature: 58
                 };
             }).then(function(data) {
                 var filteredData = data.filter(function(d) {
