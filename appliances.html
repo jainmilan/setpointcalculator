@@ -62,10 +62,10 @@
                     <label for="occupancyType" class="col-sm-4 col-form-label">Type of Occupants</label>
                     <div class="col-sm-8">
                         <select id="occType" class="form-control">
-                            <option value=1 selected>Family w/o kids</option>
-                            <option value=2>Family w/ kids</option>
-                            <option value=3>Unmarried</option>
-                            <option value=4>Senior Citizen w/o kids</option>
+                            <option value="Fwok" selected>Family w/o kids</option>
+                            <option value="Fwk">Family w/ kids</option>
+                            <option value="BC">Unmarried</option>
+                            <option value="SC">Senior Citizen w/o kids</option>
                         </select>
                     </div>
                 </div> -->
@@ -104,9 +104,9 @@
                 <div class="col-md-12">
                     <h3 class="form-group">Facts and Assumptions</h3>
                     <ol type="1">
-                        <li>Data Source: <a href="https://www7.ncdc.noaa.gov/CDO/cdopoemain.cmd?datasetabbv=DS3505&countryabbv=&georegionabbv=&resolution=40" target="_blank">NNDC Climate Data Online (2005-2019)</a></li>
-                        <li>NYC Central Park Station ID: 72505394728</li>
-                        <li>In this plot, we show hourly median values based on NYC Central Park weather data from 2005 untill 2019.</li>
+                        <li>Data Source: <a href="https://www.coned.com/en/save-money/energy-saving-programs/time-of-use" target="_blank">ConEdison</a></li>
+                        <li>Location: New York City</li>
+                        <li>In this plot, we plot hourly median time-of-day and standard electricity pricing fetched from conEdison. For standard electricity price, we have two values, one for energy consumption less than 250 kWh (SP_l250), and other for energy consumption greater than 250 kWh (SP_g250).</li>
                     </ol>  
                 </div>
             </div>

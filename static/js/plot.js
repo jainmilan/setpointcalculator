@@ -283,7 +283,8 @@
                     Month: +d.Month,
                     Hour: +d.Hour,
                     Solar_Radiation: +d["SRP_" + selectedRO],
-                    Shading: 5
+                    Shading: d3.max([0, ((+d["SRP_" + selectedRO] - +d["SR_REC"]) * 100.0) / (+d["SRP_" + selectedRO] + 1)]),
+                    Req_Lighting: d3.max([0, +d["SR_REC"] - d3.max([0, ((+d["SRP_" + selectedRO] - +d["SR_REC"]) * 100.0) / (+d["SRP_" + selectedRO] + 1)])])
                 };
             }).then(function(data) {
                 var filteredData = data.filter(function(d) {
@@ -404,7 +405,10 @@
                             return color(d.name);
                         })
                         .attr("stroke-width", 1.5)
-                        .attr("fill", "none")
+                        .attr("fill", function(d) {
+                            return color(d.name);
+                        })
+                        .style("fill-opacity", 0.2)
                     .append("text")
                         .datum(function(d) {
                             return {
@@ -523,6 +527,7 @@
 
         var selectedMonth = jQuery("#month").val();
         var selectedRO = jQuery("#room_orientation").val();
+        var selectedOT = jQuery("#occType").val();
         
         var margin = {top: 40, right: 100, bottom: 50, left: 60},
             parentWidth = d3.select('#dataviz').style('width').slice(0, -2),
@@ -549,7 +554,7 @@
                     Dry_Bulb_Temperature: (((+d.DBT) * 9) / 5) + 32,
                     Wet_Bulb_Temperature: (((+d.WBT) * 9) / 5) + 32,
                     Solar_Radiation: +d["SRP_" + selectedRO],
-                    Set_Point_Temperature: 58
+                    Set_Point_Temperature: +d["SPT_" + selectedOT]
                 };
             }).then(function(data) {
                 var filteredData = data.filter(function(d) {

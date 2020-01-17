@@ -50,9 +50,9 @@
                             <option value="E">East</option>
                             <option value="W">West</option>
                             <option value="S">South</option>
-                            <option value="NE" selected>North-East</option>
+                            <option value="NE">North-East</option>
                             <option value="NW">North-West</option>
-                            <option value="SE">South-East</option>
+                            <option value="SE" selected>South-East</option>
                             <option value="SW">South-West</option>
                         </select>
                     </div>
@@ -61,10 +61,10 @@
                     <label for="occupancyType" class="col-sm-4 col-form-label">Type of Occupants</label>
                     <div class="col-sm-8">
                         <select id="occType" class="form-control">
-                            <option value=1 selected>Family w/o kids</option>
-                            <option value=2>Family w/ kids</option>
-                            <option value=3>Unmarried</option>
-                            <option value=4>Senior Citizen w/o kids</option>
+                            <option value="Fwok" selected>Family w/o kids</option>
+                            <option value="Fwk">Family w/ kids</option>
+                            <option value="BC">Unmarried</option>
+                            <option value="SC">Senior Citizen w/o kids</option>
                         </select>
                     </div>
                 </div>-->
@@ -103,9 +103,10 @@
                 <div class="col-md-12">
                     <h3 class="form-group">Facts and Assumptions</h3>
                     <ol type="1">
-                        <li>Data Source: <a href="https://www7.ncdc.noaa.gov/CDO/cdopoemain.cmd?datasetabbv=DS3505&countryabbv=&georegionabbv=&resolution=40" target="_blank">NNDC Climate Data Online (2005-2019)</a></li>
-                        <li>NYC Central Park Station ID: 72505394728</li>
-                        <li>In this plot, we show hourly median values based on NYC Central Park weather data from 2005 untill 2019.</li>
+                        <li>Data Source: <a href="https://maps.nrel.gov/nsrdb-viewer/?aL=UdPEX9%255Bv%255D%3Dt%26f69KzE%255Bv%255D%3Dt%26f69KzE%255Bd%255D%3D1&bL=clight&cE=0&lR=0&mC=4.740675384778373%2C22.8515625&zL=2" target="_blank">NREL Solar Radiation Database (1998-2018)</a></li>
+                        <li>NYC Central Park [Lat: 40.77, Lng: -73.94]</li>
+                        <li>In this plot, we show hourly median values of solar radiation (in %), recommended shading (in %), and required lighting (in %) for the selected month for a room facing selected direction. We compute solar radiation, desired shading, and light by using NYC Central Park weather data and equations from the literature.</li>
+                        <li>In a house, we assume that 1000 lux is required in a room. For conversion from lux to W/m2, we use a coefficient of 0.0079. The value is based on literature. 1 lux = 0.0079 * 1 W/m^2.</li>
                     </ol>  
                 </div>
             </div>
