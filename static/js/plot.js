@@ -47,7 +47,7 @@ function plotData(data, axisInfo, colorArr, labelArr, dataLabels, outputVar) {
     // redefine margin, width, and height
     var margin = {top: 120, right: 80, bottom: 60, left: 50},
         parentWidth = d3.select('#dataviz').style('width').slice(0, -2),
-        parentHeight = parentWidth * 2 / 3, // d3.select('#dataviz').style('height').slice(0, -2),
+        parentHeight = (1 / parentWidth) * 230000, // d3.select('#dataviz').style('height').slice(0, -2),
         width = parentWidth - margin.left - margin.right,
         height = parentHeight - margin.top - margin.bottom; // (parentWidth / 2.236)
 
@@ -462,4 +462,9 @@ function drawPTACPlot () {
             .attr("fill", "yellow");
         */
     })
+}
+
+function reloadLayout() {
+    console.log('static/images/floorPlans/' + document.getElementById("apt_type").value + 'BR.jpg');
+    document.getElementById('aptLayout').src = 'static/images/floorPlans/' + document.getElementById("apt_type").value + 'BR.jpg';
 }
