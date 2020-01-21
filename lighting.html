@@ -12,7 +12,7 @@
     <script type="text/javascript" src="static/js/d3/d3.min.js"></script>
     <script type="text/javascript" src="static/js/bootstrap/bootstrap.min.js"></script>
 </head>
-<body>
+<body onresize="drawLightPlot()">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand ml-4" href="#">Find My Settings</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -107,13 +107,13 @@
                 <hr class="style2">
                 <div class="row">
                     <div class="col-md-12">
-                        <h3 class="form-group">Facts and Assumptions</h3>
-                        <ol type="1">
-                            <li>Data Source: <a href="https://maps.nrel.gov/nsrdb-viewer/?aL=UdPEX9%255Bv%255D%3Dt%26f69KzE%255Bv%255D%3Dt%26f69KzE%255Bd%255D%3D1&bL=clight&cE=0&lR=0&mC=4.740675384778373%2C22.8515625&zL=2" target="_blank">NREL Solar Radiation Database (1998-2018)</a></li>
-                            <li>NYC Central Park [Lat: 40.77, Lng: -73.94]</li>
+                        <h3 class="form-group">Meta Information:</h3>
+                        <ul>
+                            <li><em>Data Source:</em> <a href="https://maps.nrel.gov/nsrdb-viewer/?aL=UdPEX9%255Bv%255D%3Dt%26f69KzE%255Bv%255D%3Dt%26f69KzE%255Bd%255D%3D1&bL=clight&cE=0&lR=0&mC=4.740675384778373%2C22.8515625&zL=2" target="_blank">NREL Solar Radiation Database (1998-2018)</a></li>
+                            <li><em>Location:</em> NYC Central Park [Lat: 40.77, Lng: -73.94]</li>
                             <li>In this plot, we show hourly median values of solar radiation (in %), recommended shading (in %), and required lighting (in %) for the selected month for a room facing selected direction. We compute solar radiation, desired shading, and light by using NYC Central Park weather data and equations from the literature.</li>
                             <li>In a house, we assume that 1000 lux is required in a room. For conversion from lux to W/m2, we use a coefficient of 0.0079. The value is based on literature. 1 lux = 0.0079 * 1 W/m^2.</li>
-                        </ol>  
+                        </ul>  
                     </div>
                 </div>
             </div>

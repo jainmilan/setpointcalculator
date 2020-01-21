@@ -12,7 +12,7 @@
     <script type="text/javascript" src="static/js/d3/d3.min.js"></script>
     <script type="text/javascript" src="static/js/bootstrap/bootstrap.min.js"></script>
 </head>
-<body>
+<body onresize="drawAppliancePlot()">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand ml-4" href="#">Find My Settings</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -91,13 +91,47 @@
                 </div>
                 <hr class="style2">
                 <div class="row">
-                    <div class="col-md-12">
-                        <h3 class="form-group">Facts and Assumptions</h3>
-                        <ol type="1">
-                            <li>Data Source: <a href="https://www.coned.com/en/save-money/energy-saving-programs/time-of-use" target="_blank">ConEdison</a></li>
-                            <li>Location: New York City</li>
-                            <li>In this plot, we plot hourly median time-of-day and standard electricity pricing fetched from conEdison. For standard electricity price, we have two values, one for energy consumption less than 250 kWh (SP_l250), and other for energy consumption greater than 250 kWh (SP_g250).</li>
-                        </ol>  
+                    <div class="col-md-4">
+                        <h3 class="form-group">Meta Information:</h3>
+                        <ul type="*">
+                            <li><em>Data Source:</em> <a href="https://www.coned.com/en/save-money/energy-saving-programs/time-of-use" target="_blank">ConEdison</a></li>
+                            <li><em>Location:</em> New York City</li>
+                            <li><em>Peak Hours:</em> 8:00 AM - Midnight </li>
+                            <li><em>Non-Peak Hours:</em> Midnight - 8:00 AM </li>
+                        </ul>  
+                    </div>
+                    <div class="col-md-8">
+                            <table class="table table-sm table-striped">
+                                <col>
+                                <colgroup span="2"></colgroup>
+                                <colgroup span="2"></colgroup>
+                                <tr>
+                                    <td rowspan="2"></td>
+                                    <th colspan="2" scope="colgroup">Standard</th>
+                                    <th colspan="2" scope="colgroup">Time of Day</th>
+                                </tr>
+                                <tr>
+                                    <th scope="col"><250 kWh</th>
+                                    <th scope="col">>=250 kWh</th>
+                                    <th scope="col">Peak Hours</th>
+                                    <th scope="col">Non-Peak</th>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Jun 1 - Sep 30</th>
+                                    <td>10.817</td>
+                                    <td>12.434</td>
+                                    <td>23.07</td>
+                                    <td>1.63</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">In Other Months</th>
+                                    <td>10.817</td>
+                                    <td>10.817</td>
+                                    <td>8.54</td>
+                                    <td>1.63</td>
+                                </tr>
+                            </table>
+                        
                     </div>
                 </div>
             </div>
