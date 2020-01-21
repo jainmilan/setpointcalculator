@@ -27,9 +27,47 @@ function plotData(data, axisInfo, colorArr, labelArr, dataLabels) {
     
     // remove Old Plots
     d3.select("#dataviz").selectAll("*").remove();
+    d3.select("#datalabel").selectAll("*").remove();
 
     // redefine margin, width, and height
-    var margin = {top: 40, right: 100, bottom: 60, left: 60},
+    var marginLabels = {top: 50, right: 0, bottom: 0, left: 5},
+        parentLabelWidth = d3.select('#datalabel').style('width').slice(0, -2),
+        parentLabelHeight = d3.select('#datalabel').style('height').slice(0, -2),
+        widthLabel = parentLabelWidth - marginLabels.left - marginLabels.right,
+        heightLabel = parentLabelHeight - marginLabels.top - marginLabels.bottom; // (parentWidth / 2.236)
+    
+    // create a visualisation frame
+    var svgLabel = d3.select("#datalabel")
+                .append("svg")
+                    .attr("width", widthLabel + marginLabels.left + marginLabels.right)
+                    .attr("height", heightLabel + marginLabels.top + marginLabels.bottom)
+                .append("g")
+                    .attr("transform", "translate(" + marginLabels.left + "," + marginLabels.top + ")");
+    
+    // add dots for the legend
+    svgLabel.selectAll("mydots")
+        .data(data)
+            .enter()
+        .append("circle")
+            .attr("cx", function(d, i){return 0;})
+            .attr("cy", function(d, i){return 0 + i*25;}) // 100 is where the first dot appears. 25 is the distance between dots
+            .attr("r", 4)
+            .style("fill", function(d){return colorArr(d.name)})
+    
+    // add label for each dot
+    svgLabel.selectAll("mylabels")
+        .data(data)
+            .enter()
+        .append("text")
+            .attr("x", function(d, i){return marginLabels.left * 3 / 2;})
+            .attr("y", function(d, i){return 0 + i*25;}) // 100 is where the first dot appears. 25 is the distance between dots
+            .style("fill", function(d){ return colorArr(d.name)})
+            .text(function(d){ return dataLabels[d.name]})
+                .attr("text-anchor", "left")
+                .style("alignment-baseline", "middle")
+    
+    // redefine margin, width, and height
+    var margin = {top: 10, right: 60, bottom: 20, left: 60},
         parentWidth = d3.select('#dataviz').style('width').slice(0, -2),
         parentHeight = d3.select('#dataviz').style('height').slice(0, -2),
         width = parentWidth - margin.left - margin.right,
@@ -97,7 +135,7 @@ function plotData(data, axisInfo, colorArr, labelArr, dataLabels) {
                 .style("font", "13px sans-sarif")
                 .attr("transform", "translate( " + width + ", 0 )")
                 .call(d3.axisRight(axisDic[axisKeys[i]]).ticks(10));
-            yAxisTextPos = width + margin.right / 3;
+            yAxisTextPos = width + margin.right * 4 / 7;
         }
         
         // add y-axis label
@@ -237,28 +275,6 @@ function plotData(data, axisInfo, colorArr, labelArr, dataLabels) {
                 });
             });
     
-    // add dots for the legend
-    svg.selectAll("mydots")
-        .data(data)
-            .enter()
-        .append("circle")
-            .attr("cx", function(d, i){return margin.left/4;})
-            .attr("cy", function(d, i){return 0 + i*25;}) // 100 is where the first dot appears. 25 is the distance between dots
-            .attr("r", 4)
-            .style("fill", function(d){return colorArr(d.name)})
-    
-    // add label for each dot
-    svg.selectAll("mylabels")
-        .data(data)
-            .enter()
-        .append("text")
-            .attr("x", function(d, i){return margin.left/4 + margin.left/5;})
-            .attr("y", function(d, i){return 0 + i*25;}) // 100 is where the first dot appears. 25 is the distance between dots
-            .style("fill", function(d){ return colorArr(d.name)})
-            .text(function(d){ return dataLabels[d.name]})
-                .attr("text-anchor", "left")
-                .style("alignment-baseline", "middle")
-    
     return svg;
 }
 
@@ -364,11 +380,19 @@ function drawPTACPlot () {
     var selectedOT = jQuery("#occType").val();
 
     d3.csv("static/data/nycNRELwSRpMedian.csv", function(d) {
+        var ma_diff = +d["SPT_" + selectedOT + "Ma"] - +d["SPT_" + selectedOT];
+        var mi_diff = +d["SPT_" + selectedOT + "Mi"] - +d["SPT_" + selectedOT];
+        
+        var dbtFA = (((+d.DBT) * 9) / 5) + 32;
+        var tempDiff = +d["SPT_" + selectedOT] - dbtFA;
+        
+        var deltaT = Math.ceil((tempDiff > 0) ? d3.min([ma_diff, d3.max([0, tempDiff])]) : d3.max([mi_diff, d3.min([0, tempDiff])]));
+        
         return {
             Month: +d.Month,
             Hour: +d.Hour,
-            DBT: (((+d.DBT) * 9) / 5) + 32,
-            SPT: +d["SPT_" + selectedOT],
+            DBT: dbtFA,
+            SPT: +d["SPT_" + selectedOT] + deltaT,
             RH: +d["RH"],
             SR: +d["SRP_" + selectedRO]
         };
