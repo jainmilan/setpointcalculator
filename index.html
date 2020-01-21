@@ -32,85 +32,103 @@
             </ul>
         </div>
     </nav>
-    <!--
-    <div class="jumbotron jumbotron-fluid" style="height: 10%; align-items: center; display: flex;">
-        <div class="container-fluid ml-4 mr-4">
-            <h1 class="display-4">Thermostat Set Point Calculator</h1>
-        </div>
-    </div>
-    -->
-    <div class="container-fluid h-50 mx-auto">       
-        <div class="row h-100 ml-4 mr-4" id="input">
-            <div class="col-md-3 h-100 mt-5">
-                <div class="form-group row">
-                    <label for="apartmentOrientation" class="col-sm-4 col-form-label">Room Facing</label>
-                    <div class="col-sm-8">
-                        <select id="room_orientation" class="form-control">
-                            <option value="N">North</option>
-                            <option value="E">East</option>
-                            <option value="W">West</option>
-                            <option value="S">South</option>
-                            <option value="NE" selected>North-East</option>
-                            <option value="NW">North-West</option>
-                            <option value="SE">South-East</option>
-                            <option value="SW">South-West</option>
-                        </select>
+    <div class="container-fluid mx-auto">       
+        <div class="row" id="input">
+            <div class="col-md-6">
+                <div class="row m-2">
+                    <div class="col-md-6 mt-4 mb-2">
+                        <div class="form-group row">
+                            <label for="selectBuilding" class="col-sm-5 col-form-label">Building</label>
+                            <div class="col-sm-7">
+                                <select id="building_name" class="form-control">
+                                    <option value="A" selected>Building A</option>
+                                    <option value="B">Building B</option>
+                                    <option value="C">Building C</option>
+                                    <option value="D">Building D</option>
+                                    <option value="E">Building E</option>
+                                    <option value="F">Building F</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="apartmentType" class="col-sm-5 col-form-label">Apartment Type</label>
+                            <div class="col-sm-7">
+                                <select id="apt_type" class="form-control">
+                                    <option value="1" selected>1 Bedroom</option>
+                                    <option value="2">2 Bedrooms</option>
+                                    <option value="3">3 Bedrooms</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="apartmentOrientation" class="col-sm-5 col-form-label">Room Facing</label>
+                            <div class="col-sm-7">
+                                <select id="room_orientation" class="form-control">
+                                    <option value="N">North</option>
+                                    <option value="E">East</option>
+                                    <option value="W">West</option>
+                                    <option value="S">South</option>
+                                    <option value="NE" selected>North-East</option>
+                                    <option value="NW">North-West</option>
+                                    <option value="SE">South-East</option>
+                                    <option value="SW">South-West</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="occupancyType" class="col-sm-5 col-form-label">Resident Type</label>
+                            <div class="col-sm-7">
+                                <select id="occType" class="form-control">
+                                    <option value="FwoK" selected>Family w/o kids</option>
+                                    <option value="FwK">Family w/ kids</option>
+                                    <option value="BC">Unmarried</option>
+                                    <option value="SC">Senior Citizen w/o kids</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="month" class="col-sm-5 col-form-label">Month</label>
+                            <div class="col-sm-7">
+                                <select id="month" class="form-control">
+                                    <option value=1>January</option>
+                                    <option value=2>February</option>
+                                    <option value=3>March</option>
+                                    <option value=4>April</option>
+                                    <option value=5>May</option>
+                                    <option value=6>June</option>
+                                    <option value=7>July</option>
+                                    <option value=8 selected>August</option>
+                                    <option value=9>September</option>
+                                    <option value=10>October</option>
+                                    <option value=11>November</option>
+                                    <option value=12>December</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn-primary float-right" onclick="drawPTACPlot()">Find My Setting</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mt-3 mb-3 text-center" id="aptLayout">
+                        <img src="static/images/floorPlans/1BR.jpg" class="img-thumbnail" alt="Responsive image">    
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label for="occupancyType" class="col-sm-4 col-form-label">Type of Occupants</label>
-                    <div class="col-sm-8">
-                        <select id="occType" class="form-control">
-                            <option value="FwoK" selected>Family w/o kids</option>
-                            <option value="FwK">Family w/ kids</option>
-                            <option value="BC">Unmarried</option>
-                            <option value="SC">Senior Citizen w/o kids</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="month" class="col-sm-4 col-form-label">Select Month</label>
-                    <div class="col-sm-8">
-                        <select id="month" class="form-control">
-                            <option value=1>January</option>
-                            <option value=2>February</option>
-                            <option value=3>March</option>
-                            <option value=4>April</option>
-                            <option value=5>May</option>
-                            <option value=6>June</option>
-                            <option value=7>July</option>
-                            <option value=8 selected>August</option>
-                            <option value=9>September</option>
-                            <option value=10>October</option>
-                            <option value=11>November</option>
-                            <option value=12>December</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group row">
+                <hr class="style2">
+                <div class="row m-2">
                     <div class="col-md-12">
-                        <button type="submit" class="btn btn-primary float-right" onclick="drawPTACPlot()">Find My Setting</button>
+                        <h3 class="form-group">Facts and Assumptions</h3>
+                        <ol type="1">
+                            <li>Data Source: <a href="https://maps.nrel.gov/nsrdb-viewer/?aL=UdPEX9%255Bv%255D%3Dt%26f69KzE%255Bv%255D%3Dt%26f69KzE%255Bd%255D%3D1&bL=clight&cE=0&lR=0&mC=4.740675384778373%2C22.8515625&zL=2" target="_blank">NREL Solar Radiation Database (1998-2018)</a></li>
+                            <li>NYC Central Park [Lat: 40.77, Lng: -73.94]</li>
+                            <li>In this plot, we show hourly median values of outside air temperature, dew-point temperature, solar radiation, and recommended set point temperature. We fetch these values from NYC Central Park weather data collected from NREL Solar Radiation database from 1998 until 2018. We compute the recommended set-point temperature based on ASHRAE guidelines. As of now, we don't consider hourly variation in temperature, humidity, and solar radiation values to suggest the set-point temperature.</li>
+                        </ol>  
                     </div>
-                </div>
+                </div>   
             </div>
-            <div class="col-md-3 h-100">
-                <div class="col-md-12 h-100 mt-2" id="datalabel"></div>
-            </div>
-            <div class="col-md-6 h-100">
-                <div class="col-md-12 h-100 pl-3 ml-2 mt-2 mr-5 pr-5" id="dataviz"></div>
-            </div>
-        </div>
-        <div class="container-fluid ml-4 mr-4 mt-4" id="facts">
-            <hr class="style2">
-            <div class="row">
-                <div class="col-md-12">
-                    <h3 class="form-group">Facts and Assumptions</h3>
-                    <ol type="1">
-                        <li>Data Source: <a href="https://maps.nrel.gov/nsrdb-viewer/?aL=UdPEX9%255Bv%255D%3Dt%26f69KzE%255Bv%255D%3Dt%26f69KzE%255Bd%255D%3D1&bL=clight&cE=0&lR=0&mC=4.740675384778373%2C22.8515625&zL=2" target="_blank">NREL Solar Radiation Database (1998-2018)</a></li>
-                        <li>NYC Central Park [Lat: 40.77, Lng: -73.94]</li>
-                        <li>In this plot, we show hourly median values of outside air temperature, dew-point temperature, solar radiation, and recommended set point temperature. We fetch these values from NYC Central Park weather data collected from NREL Solar Radiation database from 1998 until 2018. We compute the recommended set-point temperature based on ASHRAE guidelines. As of now, we don't consider hourly variation in temperature, humidity, and solar radiation values to suggest the set-point temperature.</li>
-                    </ol>  
-                </div>
+            <div class="col-md-6">
+                <div class="col-md-12" id="dataviz"></div>
             </div>
         </div>
     </div>

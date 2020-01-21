@@ -23,12 +23,12 @@ function preProcessData(data, selectedMonth, excludeCols) {
     return [filteredData, color, vals];
 }
 
-function plotData(data, axisInfo, colorArr, labelArr, dataLabels) {
+function plotData(data, axisInfo, colorArr, labelArr, dataLabels, outputVar) {
     
-    // remove Old Plots
+    // remove old plots
     d3.select("#dataviz").selectAll("*").remove();
-    d3.select("#datalabel").selectAll("*").remove();
-
+    
+    /*
     // redefine margin, width, and height
     var marginLabels = {top: 50, right: 0, bottom: 0, left: 5},
         parentLabelWidth = d3.select('#datalabel').style('width').slice(0, -2),
@@ -43,33 +43,11 @@ function plotData(data, axisInfo, colorArr, labelArr, dataLabels) {
                     .attr("height", heightLabel + marginLabels.top + marginLabels.bottom)
                 .append("g")
                     .attr("transform", "translate(" + marginLabels.left + "," + marginLabels.top + ")");
-    
-    // add dots for the legend
-    svgLabel.selectAll("mydots")
-        .data(data)
-            .enter()
-        .append("circle")
-            .attr("cx", function(d, i){return 0;})
-            .attr("cy", function(d, i){return 0 + i*25;}) // 100 is where the first dot appears. 25 is the distance between dots
-            .attr("r", 4)
-            .style("fill", function(d){return colorArr(d.name)})
-    
-    // add label for each dot
-    svgLabel.selectAll("mylabels")
-        .data(data)
-            .enter()
-        .append("text")
-            .attr("x", function(d, i){return marginLabels.left * 3 / 2;})
-            .attr("y", function(d, i){return 0 + i*25;}) // 100 is where the first dot appears. 25 is the distance between dots
-            .style("fill", function(d){ return colorArr(d.name)})
-            .text(function(d){ return dataLabels[d.name]})
-                .attr("text-anchor", "left")
-                .style("alignment-baseline", "middle")
-    
+    */
     // redefine margin, width, and height
-    var margin = {top: 10, right: 60, bottom: 20, left: 60},
+    var margin = {top: 120, right: 80, bottom: 60, left: 50},
         parentWidth = d3.select('#dataviz').style('width').slice(0, -2),
-        parentHeight = d3.select('#dataviz').style('height').slice(0, -2),
+        parentHeight = parentWidth * 2 / 3, // d3.select('#dataviz').style('height').slice(0, -2),
         width = parentWidth - margin.left - margin.right,
         height = parentHeight - margin.top - margin.bottom; // (parentWidth / 2.236)
 
@@ -101,6 +79,11 @@ function plotData(data, axisInfo, colorArr, labelArr, dataLabels) {
                 return d;
             }));
     
+    svg.append("text")
+        .attr("transform", "translate(" + (width / 2) + " ," + (height + margin.bottom * 2 / 3) + ")")
+        .style("text-anchor", "middle")
+        .text("Hour of the Day");
+    
     var axisKeys = d3.keys(axisInfo);
     var axisDic = {};
     for (var i=0; i < axisKeys.length; i++) {
@@ -123,7 +106,7 @@ function plotData(data, axisInfo, colorArr, labelArr, dataLabels) {
                                         }) + 1])
                                     .range([height, 0]);
         
-        var yAxisTextPos = 0 - margin.left * 3 / 4;
+        var yAxisTextPos = 0 - margin.left;
         if (axisKeys[i] == "left") { // add left y-axis
             svg.append("g")
                 .attr("class", "y axis " + axisKeys[i])
@@ -135,7 +118,7 @@ function plotData(data, axisInfo, colorArr, labelArr, dataLabels) {
                 .style("font", "13px sans-sarif")
                 .attr("transform", "translate( " + width + ", 0 )")
                 .call(d3.axisRight(axisDic[axisKeys[i]]).ticks(10));
-            yAxisTextPos = width + margin.right * 4 / 7;
+            yAxisTextPos = width + margin.right / 2;
         }
         
         // add y-axis label
@@ -169,7 +152,9 @@ function plotData(data, axisInfo, colorArr, labelArr, dataLabels) {
                 return colorArr(d.name);
             })
             .attr("stroke-width", 1.5)
-            .attr("fill-opacity", 0.2)
+            .attr("opacity", function(d) {
+                if (d.name == outputVar) {return 1;} else {return 0.2;}
+            })
             .attr("fill", function(d){
                 if (d.name == "SR") {return "yellow";} else {return "none";}
             });
@@ -278,6 +263,31 @@ function plotData(data, axisInfo, colorArr, labelArr, dataLabels) {
                 });
             });
     
+    // add dots for the legend
+    svg.selectAll("mydots")
+        .data(data)
+            .enter()
+        .append("circle")
+            .attr("cx", function(d, i){return margin.left / 2;})
+            .attr("cy", function(d, i){return i * 20 - margin.top * 2 / 3;}) // 100 is where the first dot appears. 25 is the distance between dots
+            .attr("r", 4)
+            .style("fill", function(d){return colorArr(d.name)})
+    
+    // add label for each dot
+    svg.selectAll("mylabels")
+        .data(data)
+            .enter()
+        .append("text")
+            .attr("x", function(d, i){return margin.left * 5 / 6;})
+            .attr("y", function(d, i){return i * 20 - margin.top * 2 / 3;}) // 100 is where the first dot appears. 25 is the distance between dots
+            .style("fill", function(d){ return colorArr(d.name)})
+            .attr("opacity", function(d) {
+                if (d.name == outputVar) {return 1;} else {return 0.4;}
+            })
+            .text(function(d){ return dataLabels[d.name]})
+                .attr("text-anchor", "left")
+                .style("alignment-baseline", "middle")
+
     return svg;
 }
 
@@ -323,8 +333,10 @@ function drawAppliancePlot() {
             colorArr = dataArray[1],
             priceVals = dataArray[2];
 
+        outputVar = "ToDP";
+        
         // generate and plot data on a SVG frame
-        var svg = plotData(priceVals, axisInfo, colorArr, labelArr, dataLabels);
+        var svg = plotData(priceVals, axisInfo, colorArr, labelArr, dataLabels, outputVar);
         
     })
 }
@@ -371,8 +383,10 @@ function drawLightPlot() {
             colorArr = dataArray[1],
             lightVals = dataArray[2];
                 
+        outputVar = "Lighting";
+        
         // generate and plot data on a SVG frame
-        var svg = plotData(lightVals, axisInfo, colorArr, labelArr, dataLabels);
+        var svg = plotData(lightVals, axisInfo, colorArr, labelArr, dataLabels, outputVar);
         
     })
 }
@@ -430,8 +444,10 @@ function drawPTACPlot () {
             colorArr = dataArray[1],
             tempVals = dataArray[2];
                 
+        outputVar = "SPT";
+        
         // generate and plot data on a SVG frame
-        var svg = plotData(tempVals, axisInfo, colorArr, labelArr, dataLabels);
+        var svg = plotData(tempVals, axisInfo, colorArr, labelArr, dataLabels, outputVar);
         
         /*
 
