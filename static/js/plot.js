@@ -169,7 +169,10 @@ function plotData(data, axisInfo, colorArr, labelArr, dataLabels) {
                 return colorArr(d.name);
             })
             .attr("stroke-width", 1.5)
-            .attr("fill", "none");
+            .attr("fill-opacity", 0.2)
+            .attr("fill", function(d){
+                if (d.name == "SR") {return "yellow";} else {return "none";}
+            });
     }
     
     // To handle mouse events   
