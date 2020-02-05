@@ -403,7 +403,7 @@ function drawPTACPlot () {
         var dbtFA = (((+d.DBT) * 9) / 5) + 32;
         var tempDiff = +d["SPT_" + selectedOT] - dbtFA;
         
-        var deltaT = Math.ceil((tempDiff > 0) ? d3.min([ma_diff, d3.max([0, tempDiff])]) : d3.max([mi_diff, d3.min([0, tempDiff])]));
+        var deltaT = Math.ceil((tempDiff > 0) ? d3.min([ma_diff, tempDiff]) : d3.max([mi_diff, tempDiff]));
         
         return {
             Month: +d.Month,
