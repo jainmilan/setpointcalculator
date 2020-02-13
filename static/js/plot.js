@@ -152,8 +152,11 @@ function plotData(data, axisInfo, colorArr, labelArr, dataLabels, outputVar) {
                 return colorArr(d.name);
             })
             .attr("stroke-width", 1.5)
+            .style("stroke-dasharray", function(d) {
+                if (d.name == outputVar) {return "5,5";}
+            })
             .attr("opacity", function(d) {
-                if (d.name == outputVar) {return 1;} else {return 0.2;}
+                if (d.name == outputVar) {return 1;} else {return 1;}
             })
             .attr("fill", function(d){
                 if (d.name == "SR") {return "yellow";} else {return "none";}
@@ -282,7 +285,7 @@ function plotData(data, axisInfo, colorArr, labelArr, dataLabels, outputVar) {
             .attr("y", function(d, i){return i * 20 - margin.top * 2 / 3;}) // 100 is where the first dot appears. 25 is the distance between dots
             .style("fill", function(d){ return colorArr(d.name)})
             .attr("opacity", function(d) {
-                if (d.name == outputVar) {return 1;} else {return 0.4;}
+                if (d.name == outputVar) {return 1;} else {return 1;}
             })
             .text(function(d){ return dataLabels[d.name]})
                 .attr("text-anchor", "left")
